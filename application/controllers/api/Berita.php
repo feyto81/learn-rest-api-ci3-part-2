@@ -51,4 +51,25 @@ class Berita extends RestController
             ), 502);
         }
     }
+
+    public function index_put()
+    {
+        $id_berita = $this->put('id_berita');
+        $data = array(
+            'judul_berita' => $this->put('judul_berita'),
+            'slug_berita' => strtolower(url_title($this->put('judul_berita'))),
+            'deskripsi' => $this->put('deskripsi'),
+            'kategori_id' => $this->put('kategori_id'),
+            'modified_by' => 'API UPDATE',
+        );
+        $this->db->where('id_berita', $id_berita);
+        $update = $this->db->update('berita', $data);
+        if ($update) {
+            $this->response($data, RestController::HTTP_OK);
+        } else {
+            $this->response(array(
+                'status' => 'failed'
+            ), 502);
+        }
+    }
 }
