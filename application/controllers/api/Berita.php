@@ -72,4 +72,22 @@ class Berita extends RestController
             ), 502);
         }
     }
+
+    public function index_delete()
+    {
+        $id_berita = $this->delete('id_berita');
+        $check_data = $this->db->get_where('berita', ['id_berita' => $id_berita])->row_array();
+
+        if ($check_data) {
+            $this->db->where('id_berita', $id_berita);
+            $this->db->delete('berita');
+            $this->response(array(
+                'status' => 'success'
+            ), 200);
+        } else {
+            $this->response(array(
+                'status' => 'data not found'
+            ), 404);
+        }
+    }
 }
